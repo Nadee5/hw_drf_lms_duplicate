@@ -1,0 +1,42 @@
+[
+  {
+    "model": "materials.course",
+    "pk": 1,
+    "fields": {
+      "title": "Django",
+      "description": "Курс по изучению Django",
+      "preview": ""
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 2,
+    "fields": {
+      "title": "DRF",
+      "description": "Курс по изучению DRF",
+      "preview": ""
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+      "title": "24.2",
+      "description": "Вьюсеты и дженерики",
+      "preview": "",
+      "url": null,
+      "course": 2
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 2,
+    "fields": {
+      "title": "19.1",
+      "description": "Основы веба",
+      "preview": "",
+      "url": null,
+      "course": 1
+    }
+  }
+]
