@@ -7,6 +7,11 @@ from materials.models import Course, Lesson
 from services import NULLABLE
 
 
+class UserRoles(models.TextChoices):
+    MEMBER = 'member'
+    MODERATOR = 'moderator'
+
+
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True, verbose_name='Почта')
@@ -14,6 +19,8 @@ class User(AbstractUser):
     phone = models.CharField(max_length=35, **NULLABLE, verbose_name='Номер телефона')
     city = models.CharField(max_length=150, **NULLABLE, verbose_name='Город')
     avatar = models.ImageField(upload_to='users/', **NULLABLE, verbose_name='Аватар')
+
+    role = models.CharField(max_length=15, choices=UserRoles.choices, default=UserRoles.MEMBER, verbose_name='Роль')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
