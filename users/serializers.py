@@ -27,7 +27,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class UserRetrieveSerializer(serializers.ModelSerializer):
     """Сериализатор для просмотра профиля пользователя, включает поле истории платежей"""
     payment_list = PaymentSerializer(source='payment_set', many=True)
@@ -35,3 +34,11 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+class PaymentCreateSerializer(serializers.ModelSerializer):
+    """Cериализатор для создания платежа"""
+
+    class Meta:
+        model = Payment
+        fields = ('payment_url',)

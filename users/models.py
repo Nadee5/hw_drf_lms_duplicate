@@ -42,8 +42,13 @@ class Payment(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='paid', **NULLABLE)
 
     payment_date = models.DateTimeField(default=timezone.now, verbose_name='Дата платежа')
-    payment_amount = models.PositiveIntegerField(verbose_name='Сумма платежа')
+    payment_amount = models.PositiveIntegerField(verbose_name='Сумма платежа', **NULLABLE)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash', verbose_name='Способ платежа')
+
+    payment_status = models.CharField(default='unpaid', verbose_name='Статус оплаты')
+    payment_url = models.TextField(verbose_name='Ссылка на оплату', **NULLABLE)
+
+    session_id = models.CharField(max_length=255, verbose_name='id платежной сессии', **NULLABLE)
 
     def __str__(self):
         return f'{self.course if self.course else self.lesson}, оплачено {self.payment_amount} руб.'

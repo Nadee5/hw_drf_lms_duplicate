@@ -1,3 +1,5 @@
+import stripe
+from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, status
 from rest_framework.generics import get_object_or_404
@@ -7,8 +9,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from materials.models import Course
+from services import get_session
 from users.models import User, Payment, Subscription
-from users.serializers import UserSerializer, PaymentSerializer, UserRetrieveSerializer, SubscriptionSerializer
+from users.serializers import UserSerializer, PaymentSerializer, UserRetrieveSerializer, SubscriptionSerializer, \
+    PaymentCreateSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -59,6 +63,24 @@ class PaymentListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('course', 'lesson', 'payment_method',)
     ordering_fields = ('payment_date',)
+
+
+class PaymentCreateView(generics.CreateAPIView):
+    """Создание платежа"""
+    serializer_class = PaymentCreateSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        stripe.api_key = settings.STRIPE_API_KEY
+        response = get_session()
+        print(response)
+        new_payment = serializer.save()
+        new_payment.session_id = response['id']
+        new_payment.payment_url = response['url']
+        new_payment.payment_status = response['payment_status']
+        new_payment.payment_amount = response['amount_total']
+        new_payment.save()
+        return super().perform_create(serializer)
 
 
 class SubscriptionAPIView(APIView):
