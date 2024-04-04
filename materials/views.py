@@ -6,6 +6,7 @@ from materials.paginators import MaterialsPaginator
 from materials.permissions import IsModerator, IsOwner
 from materials.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer
 
+from materials.tasks import send_update_info_task
 
 class CourseViewSet(viewsets.ModelViewSet):
     default_serializer = CourseSerializer
@@ -37,6 +38,14 @@ class CourseViewSet(viewsets.ModelViewSet):
         new_course = serializer.save()
         new_course.owner = self.request.user
         new_course.save()
+
+    def perform_update(self, serializer):
+        """Отправляем уведомление всем подписанным пользователям"""
+        updated_course = serializer.save()
+        subject = f'Обновление курса {updated_course.title}'
+        message = 'По Вашей подписке есть обновления'
+        send_update_info_task.delay(updated_course.id, subject, message)
+        updated_course.save()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
