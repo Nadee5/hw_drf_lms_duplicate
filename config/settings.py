@@ -165,7 +165,6 @@ SIMPLE_JWT = {
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 
-
 # Настройки для Celery
 
 # URL-адрес брокера сообщений Redis (по умолчанию порт 6379)

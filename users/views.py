@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from materials.models import Course
-from services import get_session
+from config.services import get_session
 from users.models import User, Payment, Subscription
 from users.serializers import UserSerializer, PaymentSerializer, UserRetrieveSerializer, SubscriptionSerializer, \
     PaymentCreateSerializer

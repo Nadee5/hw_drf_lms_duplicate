@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from materials.models import Course, Lesson
-from services import NULLABLE
+from config.services import NULLABLE
 
 
 class UserRoles(models.TextChoices):

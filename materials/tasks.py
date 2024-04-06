@@ -21,6 +21,7 @@ def send_update_info_task(course_id, subject, message):
             fail_silently=False
         )
 
+
 @shared_task
 def check_user_activity_task():
     """Функция проверки активности пользователя"""

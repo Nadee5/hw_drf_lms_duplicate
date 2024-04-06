@@ -1,5 +1,4 @@
 from rest_framework import viewsets, generics
-from rest_framework.permissions import AllowAny
 
 from materials.models import Course, Lesson
 from materials.paginators import MaterialsPaginator
@@ -7,6 +6,7 @@ from materials.permissions import IsModerator, IsOwner
 from materials.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer
 
 from materials.tasks import send_update_info_task
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     default_serializer = CourseSerializer
